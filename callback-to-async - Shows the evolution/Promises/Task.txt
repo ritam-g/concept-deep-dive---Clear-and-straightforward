@@ -1,0 +1,40 @@
+function alarm() {
+    return new Promise((resolve) => {
+        console.log("Alarm: TIK TIK TIK TIK!!!");
+        setTimeout(resolve, 1000);
+    });
+}
+
+function wakeUp() {
+    return new Promise((resolve) => {
+        console.log("Uth gaya bhai… bas 5 minute aur...");
+        setTimeout(resolve, 2000);
+    });
+}
+
+// Ab tu yeh 7 functions khud likh de (same pattern):
+
+// 3. brush()
+// 4. breakfast() 
+// 5. catchBus() 
+// 6. attendClass()
+// 7. lunch()
+// 8. backHome()
+// 9. sleepMode()
+
+// Har function mein:
+// → console.log() apna message
+// → setTimeout(resolve, time)  → time tu decide kar (800, 1000, 2000, 3000 etc.)
+
+// Final chaining tu likhega aise:
+alarm()
+    .then(() => wakeUp())
+    .then(() => brush())
+    .then(() => breakfast())
+    .then(() => catchBus())
+    .then(() => attendClass())
+    .then(() => lunch())
+    .then(() => backHome())
+    .then(() => sleepMode())
+    .then(() => console.log("Day complete! Kal phir alarm bajega"))
+    .catch((err) => console.log("Kuch toh gadbad hua:", err));

@@ -1,0 +1,7 @@
+Level 1: Callback Hell Master (Pure Pain Mode 😭)
+
+Pyramid of Doom banao
+Apni puri ek din ki routine callback hell mein likho (minimum 7-8 nested levels). Jaise: alarm → wake up → brush → bath → breakfast → school bus → class → lunch → back home → tuition → homework → dinner → sleep
+→ Output bhi dikhao console mein with proper timing (setTimeout use kar ke delay daal do har step mein)
+Error handling in callback hell
+Same routine mein 3 jagah error aa sakta hai (jaise alarm fail, bus miss, homework nahi mila). Har callback mein error-first pattern use karo (err, data)
