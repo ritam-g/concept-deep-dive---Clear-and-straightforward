@@ -1,67 +1,51 @@
-const canvas = document.getElementById("canvas");
+const canvas = document.getElementById("rain");
 const ctx = canvas.getContext("2d");
 
-// Resize canvas
-function resizeCanvas() {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
+// ===== SHARP CANVAS (IMPORTANT) =====
+function resize() {
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = window.innerWidth * dpr;
+  canvas.height = window.innerHeight * dpr;
+
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 }
-resizeCanvas();
-window.addEventListener("resize", resizeCanvas);
+resize();
+window.addEventListener("resize", resize);
 
-// Drops
-let drops = [];
-const dropCount = 200;
+// ===== CREATE REAL WATER DROPS =====
+const drops = [];
+const dropCount = 140;
 
-// Create drops
-function createDrops() {
-  drops = [];
-  for (let i = 0; i < dropCount; i++) {
-    drops.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      length: Math.random() * 18 + 12,
-      speed: Math.random() * 4 + 3,
-      opacity: Math.random() * 0.4 + 0.4,
-      radius: Math.random() * 1.8 + 1.2
-    });
-  }
-}
-createDrops();
-
-function drawDrop(drop) {
-  // Tail
-  ctx.beginPath();
-  ctx.strokeStyle = `rgba(0, 150, 255, ${drop.opacity})`;
-  ctx.lineWidth = 1;
-  ctx.moveTo(drop.x, drop.y);
-  ctx.lineTo(drop.x, drop.y + drop.length);
-  ctx.stroke();
-
-  // Head (round water drop)
-  ctx.beginPath();
-  ctx.fillStyle = `rgba(200, 230, 255, ${drop.opacity})`;
-  ctx.arc(drop.x, drop.y, drop.radius, 0, Math.PI * 2);
-  ctx.fill();
+for (let i = 0; i < dropCount; i++) {
+  drops.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    rx: 1.5 + Math.random() * 1.5, // width
+    ry: 8 + Math.random() * 12,    // height
+    speed: 4 + Math.random() * 4
+  });
 }
 
+// ===== ANIMATION LOOP =====
 function animate() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Soft glow (water shine)
-  ctx.shadowBlur = 6;
-  ctx.shadowColor = "rgba(0,150,255,0.35)";
+  for (let d of drops) {
+    ctx.fillStyle = `rgba(173,216,230,${0.6 + Math.random() * 0.3})`;
 
-  for (const drop of drops) {
-    drawDrop(drop);
+    ctx.beginPath();
+    ctx.ellipse(d.x, d.y, d.rx, d.ry, 0, 0, Math.PI * 2);
+    ctx.fill();
 
-    // Gravity
-    drop.y += drop.speed;
+    d.y += d.speed;
 
-    // Reset
-    if (drop.y > canvas.height) {
-      drop.y = -drop.length;
-      drop.x = Math.random() * canvas.width;
+    if (d.y > window.innerHeight) {
+      d.y = -d.ry;
+      d.x = Math.random() * window.innerWidth;
     }
   }
 
@@ -69,3 +53,7 @@ function animate() {
 }
 
 animate();
+let sound=new Audio('rain.mp3')
+window.addEventListener("click",()=>{
+  sound.play()
+})
