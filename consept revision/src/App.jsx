@@ -1,18 +1,18 @@
-import React, { useContext } from 'react'
-import  { themeContext } from './context/ThemeContext';
-import './app.css'
+import React from 'react'
+import {Routes,Route  } from "react-router-dom";
+import Home from './pages/Home';
+import Contact from './pages/Contact';
+import Nav from './components/Nav';
 function App() {
-  const {theme,settheme} = useContext(themeContext);
   return (
-    <div>
-      <main className={theme === "light" ? "light" : "dark"}>
-        <h1>{theme}</h1>
-        <button 
-        onClick={()=>{settheme(prev=>prev==='light'?'bark':'light')}}
-        >Click</button>
-
-      </main>
-    </div>
+    <main>
+      <Nav/>
+      <Routes>
+      <Route path='/Home' element={<Home/>} />
+      <Route path='/contact' element={<Contact/>} />
+      </Routes>
+      
+    </main>
   )
 }
 
