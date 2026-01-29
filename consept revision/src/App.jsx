@@ -1,17 +1,23 @@
 import React from 'react'
-import {Routes,Route  } from "react-router-dom";
-import Home from './pages/Home';
-import Contact from './pages/Contact';
-import Nav from './components/Nav';
+import { useDispatch, useSelector } from 'react-redux'
+import { decrement, increment } from './redux/features/counterReducer';
 function App() {
+  const dispatch=useDispatch()
+  let num=useSelector(state=>state.counter.value)
+  
   return (
     <main>
-      <Nav/>
-      <Routes>
-      <Route path='/Home' element={<Home/>} />
-      <Route path='/contact' element={<Contact/>} />
-      </Routes>
-      
+      <h1>{num}</h1>
+      <button
+      onClick={()=>{
+dispatch(increment())
+      }}
+      >increase</button>
+      <button
+      onClick={()=>{
+        dispatch(decrement())
+      }}
+      >decrease</button>
     </main>
   )
 }
